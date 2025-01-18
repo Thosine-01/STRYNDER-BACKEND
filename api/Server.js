@@ -7,6 +7,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.json())
 
 
 
@@ -28,6 +29,10 @@ const transporter = nodemailer.createTransport({
   });
 
   const verificationURL = `${REMOTE_HOST}/subscribe/verify`
+
+  app.get('/', (req,res) => {
+    res.send('serve started succefully')
+  } )
 
 // end point to handle sunbcribers
   app.post('/subscribe', async (req, res) => {
@@ -90,7 +95,7 @@ const transporter = nodemailer.createTransport({
     }
   });
 
-const PORT = 3000;
+const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "vercel dev",
-    "server": "nodemon server.js"
+    "server": "nodemon api/server.js"
   }
 
 }
