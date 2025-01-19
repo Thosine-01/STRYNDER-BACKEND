@@ -4,24 +4,12 @@
       {
         "src": "api/server.js",
         "use": "@vercel/node"
-      },
+      }
     ],
     "routes": [
       {
       "src": "/(.*)",
       "dest": "/api/server.js"
-      },
-
+      }
     ]
-    /*"env"{
-        "API_KEY": "@api_key",
-        "AUDIENCE_ID": "@audience_id",
-        "MAILCHIMP_SERVER_PREFIX": "@mailchimp_server_prefix",
-        "REMOTE_HOST": "@remote_host",
-        "SMTP_HOST": "@smtp_host",
-        "SMTP_PORT": "@smtp_port",
-        "SMTP_USER": "@smtp_user",
-        "SMTP_PASS": "@smtp_pass",
-        "REMOTE_HOST": "@remote_host"
-      }*/
   }
