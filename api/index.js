@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const nodemailer = require('nodemailer');
+//const nodemailer = require('nodemailer');
 const cors = require('cors');
 
 const app = express();
@@ -10,59 +10,15 @@ app.use(bodyParser.json());
 app.use(express.json())
 
 
+app.use(cors());
 
-app.use(cors({
-  origin: 'https://mybackend.netlify.app',  // Allow your Netlify site
-}));
 
-const { API_KEY, AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX, REMOTE_HOST} = process.env;
+const { API_KEY, AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX, } = process.env;
 
-//email verification setup
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
 
-  const verificationURL = `${REMOTE_HOST}/subscribe/verify`
-
-  app.get('/', (req,res) => {
-    res.send('serve started succefully')
-  } )
-
-// end point to handle sunbcribers
-  app.post('/subscribe', async (req, res) => {
-    const { email } = req.body;
-  
-    // Step 1: Verify Email via Nodemailer
-    try {
-      await transporter.sendMail({
-        from: `"Strynder" <${process.env.SMTP_USER}>`,
-        to: email,
-        subject: 'Verify Your Email',
-        text: `Click the link to verify your email: ${verificationURL}?email=${email}`,
-        html: `<p>Click the link to verify your email:</p>
-               <a href="${verificationURL}?email=${email}">Verify your Email</a>
-               <p>If you didn't subscribe, <a href="${verificationURL}/unsubscribe?email=${email}">click here to unsubscribe</a>.</p>`,
-      }
-    );
-  
-      console.log('Verification email sent. kindly check your mail');
-      res.status(200).json({ message: 'Verification email sent.' });
-    } catch (error) {
-      console.error('Error:', error.message);
-      res.status(500).json({ error: 'Failed to send verification email. Please try again.' });
-    }
-  
-    
-  });
 
   // Endpoint to handle email verification and add to Mailchimp
-  app.post('/verify-email', async (req, res) => {
+ app.post('/subscribe', async (req, res) => {
     const { email } = req.body;
   
     if (!email) {
@@ -95,7 +51,7 @@ const transporter = nodemailer.createTransport({
     }
   });
 
-const PORT = 5000;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
@@ -121,4 +77,57 @@ app.listen(PORT, () => {
     /*} catch (error) {
       console.error('Error:', error.response?.data || error.message);
       res.status(500).json({ error: 'Failed to subscribe. Please try again.' });
+
+
+      API_KEY, AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX,
     }*/
+
+  /*if (!SMTP_HOST && !SMTP_PORT && !SMTP_USER && !SMTP_PASS && !REMOTE_HOST) {
+  console.error("Missing required environment variables");
+  process.exit(1);
+}*/
+
+//email verification setup
+/*const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: 465,
+    secure: false,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+  });
+
+
+  const verificationURL = `http://localhost:5173//subscribe/verify`
+
+  /*app.get('/', (req,res) => {
+    res.send('serve started succefully')
+   })
+
+// end point to handle sunbcribers
+  app.post('/subscribe', async (req, res) => {
+    const { email } = req.body;
+  
+    // Step 1: Verify Email via Nodemailer
+    try {
+      await transporter.sendMail({
+        from: `"Strynder" <${SMTP_USER}>`,
+        to: email,
+        subject: 'Verify Your Email',
+        text: `Click the link to verify your email: ${verificationURL}?email=${email}`,
+        html: `<p>Click the link to verify your email:</p>
+               <a href="${verificationURL}?email=${email}">Verify your Email</a>
+               <p>If you didn't subscribe, <a href="${verificationURL}/unsubscribe?email=${email}">click here to unsubscribe</a>.</p>`,
+      }
+    );
+  
+      console.log('Verification email sent. kindly check your mail');
+      res.status(200).json({ message: 'Verification email sent.' });
+    } catch (error) {
+      console.error('Error:', error.message);
+      res.status(500).json({ error: 'Failed to send verification email. Please try again.' });
+    }
+  
+    
+  });*/
