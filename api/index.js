@@ -10,15 +10,31 @@ app.use(bodyParser.json());
 app.use(express.json())
 
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'https://lively-rabanadas-5f4f57.netlify.app/'
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true, 
+  })
+);
+
+app.options('*', cors());
+
 
 
 const { API_KEY, AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX, } = process.env;
+
+app.get('', (req, res) => {
+  res.send('This is the home page')
+})
 
 
 
   // Endpoint to handle email verification and add to Mailchimp
  app.post('/subscribe', async (req, res) => {
+  
     const { email } = req.body;
   
     if (!email) {
@@ -47,6 +63,12 @@ const { API_KEY, AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX, } = process.env;
       res.status(200).json({ message: 'Email verified and added to Mailchimp.' });
     } catch (error) {
       console.error('Error adding to Mailchimp:', error.response?.data || error.message);
+      if (error.response) {
+        const { title, status, detail } = error.response.data;
+        if (title === 'Member Exists') {
+          return res.status(400).json({ error: 'This email is already subscribed to the newsletter.' });
+        }
+      }
       res.status(500).json({ error: 'Failed to add email to Mailchimp. Please try again.' });
     }
   });
