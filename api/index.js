@@ -17,14 +17,14 @@ app.use(
     ],
     methods: ['GET', 'POST'],
     allowedHeaders:['Content-Type', 'Authority'],
-    credentials: true,
+    credentials: false,
     optionSuccessStatus:200 
   })
 );
 
+
+// Handle preflight requests
 app.options('*', cors());
-
-
 
 const { API_KEY, AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX, } = process.env;
 
