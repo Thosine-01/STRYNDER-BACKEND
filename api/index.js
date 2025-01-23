@@ -13,11 +13,12 @@ app.use(express.json())
 app.use(
   cors({
     origin: [
-      'https://lively-rabanadas-5f4f57.netlify.app'
+      'https://lively-rabanadas-5f4f57.netlify.app/'
     ],
-    methods: ['GET','POST'],
-    allowedHeaders:['Content-Type',],
-    optionSuccessStatus:200 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders:['Content-Type'],
+    optionSuccessStatus:200,
+    credentials: true,
   })
 );
 
