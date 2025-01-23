@@ -15,9 +15,8 @@ app.use(
     origin: [
       'https://lively-rabanadas-5f4f57.netlify.app'
     ],
-    methods: ['POST'],
-    allowedHeaders:['Content-Type', 'Authority'],
-    credentials: false,
+    methods: ['GET','POST'],
+    allowedHeaders:['Content-Type',],
     optionSuccessStatus:200 
   })
 );
