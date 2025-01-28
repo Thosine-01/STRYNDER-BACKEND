@@ -29,7 +29,7 @@ app.options('*', cors());
 const { API_KEY, AUDIENCE_ID, MAILCHIMP_SERVER_PREFIX, } = process.env;
 
 app.get('', (req, res) => {
-  res.send('This is the home page' `${API_KEY}, ${AUDIENCE_ID}, ${MAILCHIMP_SERVER_PREFIX}`);
+  res.send('This is the home page');
 })
 
 
